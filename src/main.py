@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
 
-from database import engine, Sessionlocal, Base
-
+from src.database import engine, Sessionlocal, Base
+from src.routes.auth import router as auth_router
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
@@ -27,7 +27,9 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
-@app.get("/")
+app.include_router(auth_router)
+
+@app.get("/") 
 async def get_user(db: db_dependency):
     return {"Test": 'OK'}
 
