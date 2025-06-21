@@ -1,5 +1,30 @@
-from pydantic import BaseModel
+import re
+from pydantic import BaseModel, field_validator
+
+EMAIL_MASK = r'^[A-Za-z0-9\-_.]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-.]{2,}$'
+PASSWORD_MASK = r'^[A-Za-z0-9!#$%&*+\-<=>?@^_]{8,16}$'
+
+def validate_email(value: str) -> str:
+    if not re.match(EMAIL_MASK, value):
+        raise ValueError('Invalid login format')
+    return value
+
+def validate_password(value: str) -> str:
+    if not re.match(PASSWORD_MASK, value):
+        raise ValueError('Invalid password format')
+    return value
 
 class CreateUser(BaseModel):
     email: str
     password: str
+    @field_validator('email')
+    def validate_login_field(cls, value):
+        return validate_email(value)
+    @field_validator('password')
+    def validate_password_field(cls, value):
+        return validate_password(value)
+
+class UserData(BaseModel):
+    id: int
+    email: str
+    username: str
