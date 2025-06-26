@@ -14,15 +14,23 @@ def validate_password(value: str) -> str:
         raise ValueError('Invalid password format')
     return value
 
-class CreateUser(BaseModel):
+class _UserAuthBase(BaseModel):
     email: str
     password: str
-    @field_validator('email')
-    def validate_login_field(cls, value):
-        return validate_email(value)
-    @field_validator('password')
-    def validate_password_field(cls, value):
-        return validate_password(value)
+    
+    # @field_validator('email')
+    # def validate_email_field(cls, value):
+    #     return validate_email(value)
+    
+    # @field_validator('password')
+    # def validate_password_field(cls, value):
+    #     return validate_password(value)
+
+class CreateUser(_UserAuthBase):
+    pass
+
+class LoginUser(_UserAuthBase):
+    pass
 
 class UserData(BaseModel):
     id: int

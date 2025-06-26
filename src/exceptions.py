@@ -14,3 +14,6 @@ class NotFoundException(BaseAPIException):
 
 class BadRequestException(BaseAPIException):
     status_code = status.HTTP_400_BAD_REQUEST
+
+class UnauthorizedException(BaseAPIException):
+    status_code = status.HTTP_401_UNAUTHORIZED
