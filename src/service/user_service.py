@@ -20,3 +20,6 @@ class UserService:
         user_data = UserRepository(self.db).login_user(user_login_rq)
         token = create_access_token(id=user_data.id, email=user_data.email)
         return token
+    
+    def get_employee_info(self, user_id):
+        return UserRepository(self.db).get_employee_info(user_id)

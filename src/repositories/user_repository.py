@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from src.exceptions import NotFoundException, UnauthorizedException
-from src.schemas.user_schemas import CreateUser, LoginUser, UserData
+from src.schemas.user_schemas import CreateUser, LoginUser, SalaryResponse, UserData
 from src.models.user_model import User
 from passlib.context import CryptContext
 
@@ -47,3 +47,11 @@ class UserRepository:
             email = user.email,
             username = user.username
         )
+    
+    def get_employee_info(self, user_id):
+        user = self._get_user_by_id(user_id)
+        return SalaryResponse(
+            current_salary=user.current_salary,
+            next_raise_date=user.next_raise_date
+        )
+        

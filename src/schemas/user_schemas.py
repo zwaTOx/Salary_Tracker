@@ -1,4 +1,6 @@
+from datetime import datetime
 import re
+from typing import Optional
 from pydantic import BaseModel, field_validator
 
 EMAIL_MASK = r'^[A-Za-z0-9\-_.]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-.]{2,}$'
@@ -35,4 +37,9 @@ class LoginUser(_UserAuthBase):
 class UserData(BaseModel):
     id: int
     email: str
-    username: str
+    username: str 
+
+class SalaryResponse(BaseModel):
+    current_salary: int
+    next_raise_date: Optional[datetime]
+
