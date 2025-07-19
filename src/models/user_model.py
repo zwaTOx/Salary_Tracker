@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from sqlalchemy import (
     Column,DateTime, 
-    Integer, String 
+    Integer, String, Boolean
     )
 from src.database import Base
 
@@ -14,3 +14,4 @@ class User(Base):
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     current_salary = Column(Integer, default=50000) 
     next_raise_date = Column(DateTime, default=datetime.now(timezone.utc)) 
+    is_admin = Column(Boolean, default=False)  # False - employee, True - admin

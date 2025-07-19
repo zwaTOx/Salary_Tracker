@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from src.database import Sessionlocal
+from src.database import get_db
 from src.service.user_service import UserService
 from src.schemas.user_schemas import CreateUser, LoginUser
 from src.schemas.token_schemas import Token
@@ -21,13 +21,6 @@ router = APIRouter(
 )
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-
-def get_db():
-    db = Sessionlocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
 

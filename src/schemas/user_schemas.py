@@ -23,7 +23,6 @@ class _UserAuthBase(BaseModel):
     # @field_validator('email')
     # def validate_email_field(cls, value):
     #     return validate_email(value)
-    
     # @field_validator('password')
     # def validate_password_field(cls, value):
     #     return validate_password(value)
@@ -40,6 +39,9 @@ class UserData(BaseModel):
     username: str 
 
 class SalaryResponse(BaseModel):
-    current_salary: int
+    current_salary: Optional[int]
     next_raise_date: Optional[datetime]
 
+class UpdateEmployeeInfo(BaseModel):
+    current_salary: Optional[int] = None
+    next_raise_date: Optional[datetime] = None

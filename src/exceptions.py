@@ -17,3 +17,6 @@ class BadRequestException(BaseAPIException):
 
 class UnauthorizedException(BaseAPIException):
     status_code = status.HTTP_401_UNAUTHORIZED
+
+class ForbiddenException(BaseAPIException):
+    status_code = status.HTTP_403_FORBIDDEN
