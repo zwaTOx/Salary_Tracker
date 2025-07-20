@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.database import engine, Sessionlocal, Base
+from src.database import engine, Sessionlocal, Base, get_db
 from src.routes.auth import router as auth_router
 from src.routes.employee_info import router as employee_router
 from src.routes.admin_route import router as admin_router
@@ -20,13 +20,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-def get_db():
-    db = Sessionlocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
