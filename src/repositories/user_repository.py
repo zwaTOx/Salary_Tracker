@@ -62,7 +62,11 @@ class UserRepository:
             next_raise_date=user.next_raise_date
         )
 
-    def get_all_employees(self, offset: int = 0, limit: int = 10, sort_by: Literal['id', 'username', 'current_salary'] = 'id', sort_order: Literal['asc', 'desc'] = 'asc') -> List[UserData]:
+    def get_all_employees(self, 
+            offset: int = 0, 
+            limit: int = 10, 
+            sort_by: Literal['id', 'username', 'current_salary', 'email'] = 'id', 
+            sort_order: Literal['asc', 'desc'] = 'asc') -> List[UserData]:
         if sort_order == 'asc':
             query = self.db.query(User).order_by(getattr(User, sort_by).asc())
         elif sort_order == 'desc':

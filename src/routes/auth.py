@@ -26,9 +26,13 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 @router.post("/registration", 
     status_code=status.HTTP_201_CREATED,
+    description="Register a new user",
+    summary="User Registration",
     responses={
-        201: {"description": "User created successfully"},
-        400: {"description": "User is already exists"}
+        status.HTTP_201_CREATED: {
+            "description": "User created successfully"},
+        status.HTTP_400_BAD_REQUEST: {
+            "description": "User is already exists"}
     }) 
 async def register_user(
     create_user_rq: CreateUser,
@@ -41,12 +45,17 @@ async def register_user(
     )
 
 @router.post('/auth',
-    status_code=status.HTTP_200_OK,
     response_model=Token,
+    status_code=status.HTTP_200_OK,
+    description="Authenticate user and return access token",
+    summary="User Authentication",
     responses={
-        200: {'description': 'User auth successfully'},
-        404: {'description': 'User with this email not found'},
-        401: {'description': 'Invalid password'}
+        status.HTTP_200_OK: {
+            'description': 'User auth successfully'},
+        status.HTTP_404_NOT_FOUND: {
+            'description': 'User with this email not found'},
+        status.HTTP_401_UNAUTHORIZED: {
+            'description': 'Invalid password'}
     })
 async def auth_user(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],

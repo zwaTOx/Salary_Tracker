@@ -1,9 +1,8 @@
 from typing import Literal
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from src.service.token import create_access_token
-from src.exceptions import ForbiddenException, NotFoundException, BadRequestException
+from src.exceptions import ForbiddenException, BadRequestException
 from src.repositories.user_repository import UserRepository
 from src.schemas.user_schemas import CreateUser, LoginUser, SalaryResponse, UpdateEmployeeInfo
 
@@ -32,5 +31,17 @@ class UserService:
         updated_info = UserRepository(self.db).update_employee_info(user_id=user_id, info_to_update=info_to_update)
         return updated_info
 
-    def get_all_employees(self, offset: int = 0, limit: int = 10, sort_by: Literal['id', 'username', 'current_salary'] = 'id', sort_order: Literal['asc', 'desc'] = 'asc') -> list[SalaryResponse]:
-        return UserRepository(self.db).get_all_employees(offset=offset, limit=limit, sort_by=sort_by, sort_order=sort_order)
+    def get_all_employees(self, 
+        admin_id: int,
+        offset: int = 0, 
+        limit: int = 10, 
+        sort_by: Literal['id', 'username', 'current_salary', 'email'] = 'id', 
+        sort_order: Literal['asc', 'desc'] = 'asc'
+    ) -> list[SalaryResponse]:
+        UserRepository(self.db).check_admin_perms(user_id=admin_id)
+        return UserRepository(self.db).get_all_employees(
+            offset=offset,
+            limit=limit,
+            sort_by=sort_by,
+            sort_order=sort_order
+        )

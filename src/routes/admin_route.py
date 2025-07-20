@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter, FastAPI, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from typing import Annotated, List
-from src.schemas.user_schemas import SalaryResponse, UpdateEmployeeInfo
+from src.schemas.user_schemas import SalaryResponse, UpdateEmployeeInfo, UserData
 from src.service.user_service import UserService
 
 from src.database import get_db
@@ -17,16 +17,32 @@ router = APIRouter(
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
-@router.get('/')
+@router.get('/',
+    response_model=List[UserData],
+    status_code=status.HTTP_200_OK,
+    description="Get all employees with pagination and sorting",
+    summary="Get Employees",
+    responses={
+        status.HTTP_200_OK: {
+            "description": "Employees retrieved successfully"},
+        status.HTTP_400_BAD_REQUEST: {
+            "description": "Invalid query parameters"}
+    })
 def get_employees(
     user: user_dependency,
     db: db_dependency,
     offset: int = 0,
     limit: int = 10,
-    sort_by: Literal['id', 'username', 'current_salary'] = 'id',
-    sort_order: Literal['asc', 'desc'] = 'asc'  
-):  
-    employees = UserService(db).get_all_employees(offset=offset, limit=limit, sort_by=sort_by, sort_order=sort_order)
+    sort_by: Literal['id', 'username', 'current_salary', 'email'] = 'id',
+    sort_order: Literal['asc', 'desc'] = 'asc'
+):
+    employees = UserService(db).get_all_employees(
+        admin_id=user['id'], 
+        offset=offset, 
+        limit=limit, 
+        sort_by=sort_by, 
+        sort_order=sort_order
+    )
     return employees
 
 
