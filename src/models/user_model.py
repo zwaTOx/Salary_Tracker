@@ -12,6 +12,6 @@ class User(Base):
     email = Column(String(100), unique=True)
     hashed_password = Column(String(256))
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    current_salary = Column(Integer, default=50000) 
-    next_raise_date = Column(DateTime, default=datetime.now(timezone.utc)) 
+    current_salary = Column(Integer, nullable=True) 
+    next_raise_date = Column(DateTime, nullable=True) 
     is_admin = Column(Boolean, default=False)  # False - employee, True - admin
