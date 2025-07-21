@@ -30,10 +30,11 @@ cp .env.example .env
 ```
 Отредактируйте .env:
 ```
-URL_DATABASE = 'your_database_url'
-ALGORITHM = HS256
-SECRET_KEY = your_secret_key
-ACCESS_TOKEN_EXPIRE_MINUTES = 15
+SECRET_KEY=your_secret_key
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=Salary_tracker
+DB_PORT=5432
 ```
 
 ### 3. Установка зависимостей
@@ -52,6 +53,10 @@ poetry install
 ### Способ 2: Прямой запуск через Uvicorn
 ```
 uvicorn src.main:app --port 8000 --reload --reload-dir src
+```
+### Способ 3: Через DockerContainer
+```
+docker compose -f 'docker-compose.yml' up -d --build 
 ```
 Документация API
 После запуска доступно:
@@ -94,10 +99,11 @@ cp .env.example .env
 
 Edit .env with your settings:
 ```
-URL_DATABASE = 'your_database_url'
-ALGORITHM = HS256
-SECRET_KEY = your_secret_key
-ACCESS_TOKEN_EXPIRE_MINUTES = 15
+SECRET_KEY=your_secret_key
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=Salary_tracker
+DB_PORT=5432
 ```
 
 ### 3. Install dependencies
@@ -113,9 +119,13 @@ poetry install
 4. Running the Application
 You can start the application using one of these methods:
 
-### Method 1: Run via Python script
+### Method 1: Run via Python script run.py
 
 ### Method 2: Run directly with Uvicorn
 ```
 uvicorn src.main:app --port 8000 --reload --reload-dir src
+```
+### Method 3: Run in Docker
+```
+docker compose -f 'docker-compose.yml' up -d --build 
 ```
