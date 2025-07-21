@@ -17,7 +17,7 @@ services:
     build: .
     env_file: .env  
     environment:
-      DATABASE_URL: ${URL_DATABASE}
+      DATABASE_URL: ${DATABASE_URL}
     ports:
       - "8000:8000"
     depends_on:
