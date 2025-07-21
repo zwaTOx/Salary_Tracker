@@ -91,8 +91,12 @@ Authorized administrators can manage employee data
 git clone https://gitlab.com/zwaTOx/salary_tracker.git
 cd salary-tracker
 ```
+cd salary-tracker
+```
 
 ### 2. Set Up Environment Variables
+```
+cp .env.example .env
 ```
 cp .env.example .env
 ```
@@ -112,6 +116,11 @@ Using UV:
 uv pip sync uv.lock
 ```
 Using poetry:
+uv pip sync uv.lock
+```
+Using poetry:
+```
+poetry install
 ```
 poetry install
 ```
